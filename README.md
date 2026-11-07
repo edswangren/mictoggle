@@ -3,7 +3,7 @@
 System-wide microphone mute toggle for macOS, bound to the **F5 mic/dictation key**, with a menu-bar indicator.
 
 - **F5** toggles mute in every app (Teams, Zoom, browser, etc.).
-- **Menu bar:** a mic icon when live, a red slashed mic when muted. Clicking the icon also toggles.
+- **Menu bar:** a mic icon when live, a red slashed mic when muted, an orange mic with an ✕ when the mic can't be muted. Clicking the icon also toggles.
 - Starts at login and is restarted automatically if it quits.
 
 ## Install
@@ -37,7 +37,7 @@ This also restores F5 to dictation.
 
 - **Unmuting elsewhere sticks.** If another app or Sound settings unmutes the mic, the icon turns live and MicToggle leaves it alone.
 - **Switching mics keeps you muted.** If you're muted when the default input changes (e.g. AirPods connect), the new mic is muted too.
-- **Some mics can't be muted.** If a mic has neither a mute flag nor an adjustable volume, or macOS rejects the change, the icon becomes an orange mic with an ✕. Hover over it to see the device name.
+- **Some mics can't be muted.** If a mic has neither a mute flag nor an adjustable volume, or the device rejects or ignores the change, the icon becomes an orange mic with an ✕. Hover over it to see the device name.
 - **Meeting apps have their own mute.** A meeting app's mute button is separate and won't change. Apps still have the mic open while you're muted, so the orange "mic in use" dot stays on.
 - **Device-specific remaps become global.** A remap that another tool limited to one keyboard with `hidutil --matching` applies to all keyboards after `install.sh` or `uninstall.sh` merges the list.
 - Dictation from the F5 key is disabled while installed. It's still available from Edit → Start Dictation.
