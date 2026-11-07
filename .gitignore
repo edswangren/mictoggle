@@ -1,0 +1,6 @@
+# Build output
+/MicToggle
+*.o
+.build/
+# macOS
+.DS_Store
