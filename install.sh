@@ -1,6 +1,6 @@
 #!/bin/zsh
 # Builds MicToggle from source and installs it:
-#   - F5 (mic/dictation key) -> F18 remap, re-applied at every login
+#   - F5 (mic/dictation key) -> F18 remap, re-applied at every login (merged with any other hidutil remaps)
 #   - menu-bar helper that toggles mic mute on F18, started at login and kept alive
 set -e
 SRC="${0:A:h}"
@@ -17,8 +17,7 @@ cat > "$LA/com.user.mictoggle.keymap.plist" <<EOF
 <plist version="1.0"><dict>
   <key>Label</key><string>com.user.mictoggle.keymap</string>
   <key>ProgramArguments</key><array>
-    <string>/usr/bin/hidutil</string><string>property</string><string>--set</string>
-    <string>{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0xC000000CF,"HIDKeyboardModifierMappingDst":0x70000006D}]}</string>
+    <string>$D/MicToggle</string><string>--apply-keymap</string>
   </array>
   <key>RunAtLoad</key><true/>
 </dict></plist>

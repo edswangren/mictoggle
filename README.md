@@ -27,14 +27,18 @@ This also restores F5 to dictation.
 
 ## How it works
 
-1. **Key remap.** The LaunchAgent `com.user.mictoggle.keymap` runs `hidutil` at login to remap the mic key (consumer usage `0xC000000CF`) to F18, which no Mac keyboard has. The remap doesn't survive a reboot, so it is re-applied at every login.
+1. **Key remap.** The LaunchAgent `com.user.mictoggle.keymap` runs `MicToggle --apply-keymap` at login. It remaps the mic key (consumer usage `0xC000000CF`) to F18, which no Mac keyboard has, using `hidutil`. Any other `hidutil` remaps you have are kept, and uninstall removes only this one. The remap doesn't survive a reboot, so it is re-applied at every login.
 2. **Helper.** The LaunchAgent `com.user.mictoggle` runs `~/Library/Application Support/MicToggle/MicToggle`, a menu-bar-only app built from `MicToggle.swift`.
 3. **Hotkey.** The helper catches F18 with Carbon `RegisterEventHotKey`, so no Accessibility permission is needed.
-4. **Mute.** Mute sets the default input device's volume to 0. Unmute restores the previous level, saved in `~/Library/Preferences/MicToggle.plist` (falls back to 75).
+4. **Mute.** Mute sets the default input device's own CoreAudio mute flag, the same one a hardware mute switch uses. Every app receives silence, and the input volume isn't touched. A device with no mute flag falls back to input volume 0. Unmuting then restores the previous level, saved in `~/Library/Preferences/MicToggle.plist`, or 75% if none was saved.
+5. **State.** The icon reads the device directly and updates the instant anything changes it. That includes Sound settings, another app, or a headset's mute button.
 
 ## Notes
 
-- This is a "soft" mute: the input level drops to 0, so apps receive silence. A meeting app's own mute button won't change.
-- Mute applies to whichever input device was the default when you pressed F5. If you switch mics mid-call, press F5 again if needed. The icon updates every 2 seconds.
+- **Unmuting elsewhere sticks.** If another app or Sound settings unmutes the mic, the icon turns live and MicToggle leaves it alone.
+- **Switching mics keeps you muted.** If you're muted when the default input changes (e.g. AirPods connect), the new mic is muted too.
+- **Some mics can't be muted.** If a mic has neither a mute flag nor an adjustable volume, or macOS rejects the change, the icon becomes an orange mic with an ✕. Hover over it to see the device name.
+- **Meeting apps have their own mute.** A meeting app's mute button is separate and won't change. Apps still have the mic open while you're muted, so the orange "mic in use" dot stays on.
+- **Device-specific remaps become global.** A remap that another tool limited to one keyboard with `hidutil --matching` applies to all keyboards after `install.sh` or `uninstall.sh` merges the list.
 - Dictation from the F5 key is disabled while installed. It's still available from Edit → Start Dictation.
 - Built and tested on Apple Silicon MacBooks with the built-in keyboard. External keyboards whose mic key sends a different code won't trigger it.
