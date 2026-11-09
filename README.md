@@ -11,16 +11,19 @@ System-wide microphone mute toggle for macOS, bound to the **F5 mic/dictation ke
 Requires the Xcode Command Line Tools (`xcode-select --install`).
 
 ```sh
-git clone https://github.com/edswangren/mictoggle.git ~/repos/mictoggle
-~/repos/mictoggle/install.sh
+git clone https://github.com/edswangren/mictoggle.git
+cd mictoggle
+./install.sh
 ```
 
-Re-run `install.sh` after pulling changes to rebuild and restart.
+Re-run `./install.sh` after pulling changes to rebuild and restart.
 
 ## Uninstall
 
+From the repo folder:
+
 ```sh
-~/repos/mictoggle/uninstall.sh
+./uninstall.sh
 ```
 
 This also restores F5 to dictation.
